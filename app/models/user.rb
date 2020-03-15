@@ -11,6 +11,8 @@ class User < ApplicationRecord
   scope :merchants, -> { where role: :merchant }
   scope :admins, -> { where role: :admin }
 
+  has_many :transactions, foreign_key: :uuid, dependent: :restrict_with_error
+
   protected
 
   def password_required?

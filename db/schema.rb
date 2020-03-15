@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_15_112521) do
+ActiveRecord::Schema.define(version: 2020_03_15_134351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "transactions", force: :cascade do |t|
+    t.integer "uuid", null: false, comment: "Merchant ID"
+    t.string "customer_email", comment: "Customer Email"
+    t.string "customer_phone", null: false, comment: "Customer Phone"
+    t.decimal "amount", comment: "Transaction amount"
+    t.string "type", comment: "Transaction type, used for STI"
+    t.integer "status", default: 0, null: false, comment: "Status of transaction"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false

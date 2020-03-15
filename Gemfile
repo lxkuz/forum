@@ -24,6 +24,7 @@ gem 'redis', '~> 4.0'
 
 gem 'activerecord-import'
 gem 'devise'
+gem 'stateful_enum'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
