@@ -3,5 +3,11 @@ Rails.application.routes.draw do
 
   resources :merchants, only: :index
 
+  namespace :api do
+    namespace :v1 do
+      resource :payments, only: :create
+    end
+  end
+
   root to: 'merchants#index'
 end
