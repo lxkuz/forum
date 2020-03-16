@@ -1,0 +1,12 @@
+h3.text-center
+  = "Edit merchant"
+
+= form_with(model: @merchant, url: merchant_url(@merchant)) do |f|
+  = f.text_field :name
+  = f.text_field :email
+  = f.check_box :activity
+  .form-actions
+    .btn
+      = f.submit "Submit", class: 'btn btn-success'
+    .btn
+      = link_to 'Back', merchants_url, class: 'btn btn-primary'

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :merchants, only: :index
+  resources :merchants, only: [:index, :edit, :update]
 
   namespace :api do
     namespace :v1 do

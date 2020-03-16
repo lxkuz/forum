@@ -24,7 +24,9 @@ gem 'redis', '~> 4.0'
 
 gem 'activerecord-import'
 gem 'devise'
+gem 'kaminari'
 gem 'jwt'
+gem 'slim'
 gem 'stateful_enum'
 
 # Use Active Storage variant
