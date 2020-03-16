@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_15_134351) do
+ActiveRecord::Schema.define(version: 2020_03_16_171033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2020_03_15_134351) do
     t.integer "role", null: false, comment: "User role (admin or merchant)"
     t.string "name", comment: "Company name"
     t.decimal "total_transaction_sum", default: "0.0", null: false, comment: "Total income amount"
+    t.boolean "activity", default: false, null: false, comment: "Merchant active flag"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
