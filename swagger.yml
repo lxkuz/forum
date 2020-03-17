@@ -1,0 +1,103 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Transactions API reference",
+    "version": "1.0.0",
+    "title": "Forum API Refence",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "m2lxkuz@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "forumlxkuz.herokuapp.com",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "JWT",
+      "description": "Getting JWT token"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "produces": [
+          "application/x-www-form-urlencoded"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "tags": [
+          "JWT"
+        ],
+        "summary": "Get new JWT token",
+        "description": "Returns token and exp time",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "Admin Email",
+            "required": true,
+            "type": "string",
+            "default": "admin@forum.lxkuz"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "description": "Admin Password",
+            "required": true,
+            "default": "forumadmin",
+            "type": "string"
+          },
+          {
+            "name": "customer[phone]",
+            "in": "formData",
+            "description": "Customer phon",
+            "required": true,
+            "default": "+123123123",
+            "type": "string"
+          },
+          {
+            "name": "customer[email]",
+            "in": "formData",
+            "description": "Customer phon",
+            "required": true,
+            "default": "customer@forum.lxkuz",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/JWT"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "JWT": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "exp": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Repo github path",
+    "url": "https://github.com/lxkuz/forum"
+  }
+}
