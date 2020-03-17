@@ -1,11 +1,11 @@
-module UseCases
-  class RefusePayment
+module PaymentCases
+  class Refund
     def initialize(options)
       @options = options
     end
 
     def call
-      payment = ReversalTransaction.new(
+      payment = RefundTransaction.new(
         uuid: options[:uuid],
         customer_phone: options[:customer_phone],
         customer_email: options[:customer_email]
@@ -20,7 +20,7 @@ module UseCases
 
     private
 
-    attr_reader :option
+    attr_reader :options
 
     def merchant_id
       User.merchants.find(merchant_id)

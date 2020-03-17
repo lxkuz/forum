@@ -1,4 +1,4 @@
-module UseCases
+module PaymentCases
   class AuthorizePayment
     def initialize(options)
       @options = options

@@ -1,5 +1,3 @@
-require './app/use_cases/accountant'
-
 module Api
   module V1
     class PaymentsController < BaseController
@@ -10,7 +8,7 @@ module Api
           amount: permitted_params[:amount], customer_phone: current_customer[:phone],
           customer_email: current_customer[:email], uuid: permitted_params[:uuid]
         }
-        response = ::UseCases::Accountant.new(
+        response = Accountant.new(
           permitted_params[:type], transaction_attributes
         ).call
         status = response.key?(:errors) ? :not_acceptable : :ok

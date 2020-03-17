@@ -1,12 +1,13 @@
-module UseCases
-  class Refund
+module PaymentCases
+  class Pay
     def initialize(options)
       @options = options
     end
 
     def call
-      payment = RefundTransaction.new(
+      payment = ChargeTransaction.new(
         uuid: options[:uuid],
+        amount: options[:amount],
         customer_phone: options[:customer_phone],
         customer_email: options[:customer_email]
       )
