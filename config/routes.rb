@@ -1,7 +1,11 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   devise_for :users
 
-  resources :merchants, only: [:index, :edit, :update]
+  resources :merchants, only: %i[index edit update]
 
   namespace :api do
     namespace :v1 do

@@ -26,8 +26,10 @@ gem 'activerecord-import'
 gem 'devise'
 gem 'kaminari'
 gem 'jwt'
+gem 'sidekiq'
 gem 'slim'
 gem 'stateful_enum'
+gem 'whenever'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

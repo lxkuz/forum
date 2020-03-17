@@ -30,7 +30,17 @@ services:
       interval: 1s
       timeout: 3s
       retries: 30
-
+  sidekiq:
+    build: .
+    environment:
+      - RAILS_ENV=development
+      - RUBYOPT=-W0
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/app
+    command: ./start-sidekiq.sh
 volumes:
   postgres:
   redis:  
