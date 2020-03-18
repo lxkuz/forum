@@ -1,12 +1,44 @@
-h3.text-center
-  = "Edit merchant"
 
-= form_with(model: @merchant, url: merchant_url(@merchant)) do |f|
-  = f.text_field :name
-  = f.text_field :email
-  = f.check_box :activity
-  .form-actions
-    .btn
-      = f.submit "Submit", class: 'btn btn-success'
-    .btn
-      = link_to 'Back', merchants_url, class: 'btn btn-primary'
+.container
+  .row
+    .col-md-4
+      h3 = "Edit merchant"
+      = form_with(model: @merchant, url: merchant_url(@merchant)) do |f|
+        .form-inputs
+          .label
+            'Name
+          = f.text_field :name, class: "form-control"
+          .label
+            'Email
+          = f.text_field :email, class: "form-control"
+          .label
+            'Activity      
+          = f.check_box :activity, class: "form-control"
+        .form-actions
+          .btn
+            = f.submit "Submit", class: 'btn btn-success'
+          .btn
+            = link_to 'Back', merchants_url, class: 'btn btn-primary'
+    .col-md-4
+      h3 = "Transactions"
+      table.table.table-striped.table-bordered
+        thead
+          tr
+            td= 'ID'
+            td= 'Customer email'
+            td= 'Customer phone'
+            td= 'Amount'
+            td= 'Type'
+            td= 'Status'
+            td= 'Created at'
+        tbody
+          - @transactions.each do |transaction_record|
+            - transaction = TransactionPresenter.new(transaction_record)
+            tr
+              td= transaction.id
+              td= transaction.customer_email
+              td= transaction.customer_phone
+              td= transaction.amount
+              td= transaction.type
+              td= transaction.status
+              td= transaction.created_at
