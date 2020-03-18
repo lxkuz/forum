@@ -1,4 +1,3 @@
-
 class Accountant
   attr_reader :type, :options
 
