@@ -7,6 +7,7 @@ class User < ApplicationRecord
   enum role: { admin: 0, merchant: 1 }
 
   validates :role, :total_transaction_sum, presence: true
+  validate :check_total_transaction_sum_is_positive
 
   scope :merchants, -> { where role: :merchant }
   scope :admins, -> { where role: :admin }
@@ -19,5 +20,11 @@ class User < ApplicationRecord
     return false if merchant?
 
     super
+  end
+
+  def check_total_transaction_sum_is_positive
+    if total_transaction_sum.negative?
+      errors.add(:total_transaction_sum, "can't be negative")
+    end
   end
 end
