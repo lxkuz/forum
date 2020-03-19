@@ -22,7 +22,7 @@ RSpec.describe PaymentCases::Pay do
     end
 
     it 'approves authorized transaction' do
-      expect { call }.to change { authorize_transaction.status }
+      expect { call }.to change { authorize_transaction.reload.status }
         .from('initial')
         .to('approved')
     end
