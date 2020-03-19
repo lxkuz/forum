@@ -1,38 +1,18 @@
 module PaymentCases
-  class AuthorizePayment
-    def initialize(options)
-      @options = options
-    end
-
+  class AuthorizePayment < PaymentCases::Base
     def call
-      payment = AuthorizeTransaction.new(
+      transaction = AuthorizeTransaction.new(
         uuid: options[:uuid],
         amount: options[:amount],
         customer_phone: options[:customer_phone],
         customer_email: options[:customer_email]
       )
 
-      if payment.save
-        success_response(payment)
+      if transaction.save
+        success_response(transaction)
       else
-        error_response(payment)
+        error_response(transaction.errors.message)
       end
-    end
-
-    private
-
-    attr_reader :options
-
-    def merchant_id
-      User.merchants.find(merchant_id)
-    end
-
-    def success_response(_payment)
-      { success: true }
-    end
-
-    def error_response(payment)
-      { error: payment.errors.messages }
     end
   end
 end

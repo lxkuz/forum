@@ -30,4 +30,10 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  payment_cases:
+    errors:
+      no_authorize_transaction: Authorize transaction not found
+      wrong_amount: Wrong transaction amount
+      no_charge_transaction: Charge transaction not found
+
+

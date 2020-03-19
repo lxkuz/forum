@@ -1,21 +1,23 @@
 module PaymentCases
-  class Pay
-    def initialize(options)
-      @options = options
-    end
-
+  class Pay < PaymentCases::Base
     def call
-      payment = ChargeTransaction.new(
-        uuid: options[:uuid],
-        amount: options[:amount],
-        customer_phone: options[:customer_phone],
-        customer_email: options[:customer_email]
-      )
-
-      if payment.save
-        success_response(payment)
+      begin
+        validate_options
+        load_authorize_transaction
+        Merchant.transaction do
+          AuthorizeTransaction.transaction do
+            ChargeTransaction.transaction do
+              approve_authorize_transaction
+              create_charge_transaction
+              approve_change_transaction
+              increment_merchant_sum_of_payments
+            end
+          end
+        end
+      rescue UseCaseError => e
+        error_response(e.message)
       else
-        error_response(payment)
+        success_response
       end
     end
 
@@ -23,16 +25,58 @@ module PaymentCases
 
     attr_reader :options
 
-    def merchant_id
-      User.merchants.find(merchant_id)
+    def handle_options
+      @amount = options[:amount].to_f
+      if @amount <= 0
+        raise_error(:wrong_amount)
+      end
     end
 
-    def success_response(_payment)
-      { success: true }
+    def load_authorize_transaction
+      @authorize_transaction = Transaction.where(
+        customer_email: options[:customer_email]
+        uuid: options[:uuid]
+      ).reorder(:created_at).last
+
+      if @authorize_transaction.nil? ||
+        @authorize_transaction.is_a?(AuthorizeTransaction) ||
+        !@authorize_transaction.initial?
+        raise_error(:no_authorize_transaction)
+      end
+
+      if authorize_transaction.amount == @amount   
+        raise_error(:wrong_amount)
+      end
     end
 
-    def error_response(payment)
-      { error: payment.errors.messages }
+    def approve_authorize_transaction
+      within_error_handler do
+        @charge_transaction.approve!
+      end
+    end
+
+    def create_charge_transaction
+      @charge_transaction = ChargeTransaction.new(
+        uuid: options[:uuid],
+        amount: amount,
+        customer_phone: options[:customer_phone],
+        customer_email: options[:customer_email]
+      )
+      unless @charge_transaction.save
+        raise_error(@charge_transaction.errors.messages)
+      end
+    end
+
+    def approve_change_transaction
+      within_error_handler do
+        @charge_transaction.approve!
+      end
+    end
+
+    def increment_merchant_sum_of_payments
+      merchant = @charge_transaction.merchant
+      merchant.total_transaction_sum += @charge_transaction.amount
+      raise_error(merchant.errors.messages) unless merchant.save
     end
   end
 end
