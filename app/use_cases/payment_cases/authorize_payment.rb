@@ -9,9 +9,9 @@ module PaymentCases
       )
 
       if transaction.save
-        success_response(transaction)
+        success_response
       else
-        error_response(transaction.errors.message)
+        error_response(transaction.errors.messages)
       end
     end
   end

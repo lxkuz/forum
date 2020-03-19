@@ -1,24 +1,22 @@
 module PaymentCases
   class Pay < PaymentCases::Base
     def call
-      begin
-        validate_options
-        load_authorize_transaction
-        Merchant.transaction do
-          AuthorizeTransaction.transaction do
-            ChargeTransaction.transaction do
-              approve_authorize_transaction
-              create_charge_transaction
-              approve_change_transaction
-              increment_merchant_sum_of_payments
-            end
+      handle_options
+      load_authorize_transaction
+      User.transaction do
+        AuthorizeTransaction.transaction do
+          ChargeTransaction.transaction do
+            approve_authorize_transaction
+            create_charge_transaction
+            approve_change_transaction
+            increment_merchant_sum_of_payments
           end
         end
-      rescue UseCaseError => e
-        error_response(e.message)
-      else
-        success_response
       end
+    rescue PaymentCases::UseCaseError => e
+      error_response(e.message)
+    else
+      success_response
     end
 
     private
@@ -26,45 +24,39 @@ module PaymentCases
     attr_reader :options
 
     def handle_options
-      @amount = options[:amount].to_f
-      if @amount <= 0
-        raise_error(:wrong_amount)
-      end
+      @amount = options[:amount]
+      raise_error(:wrong_amount) if @amount <= 0
     end
 
     def load_authorize_transaction
       @authorize_transaction = Transaction.where(
-        customer_email: options[:customer_email]
+        customer_email: options[:customer_email],
         uuid: options[:uuid]
       ).reorder(:created_at).last
 
       if @authorize_transaction.nil? ||
-        @authorize_transaction.is_a?(AuthorizeTransaction) ||
-        !@authorize_transaction.initial?
+         !@authorize_transaction.is_a?(AuthorizeTransaction) ||
+         !@authorize_transaction.initial?
         raise_error(:no_authorize_transaction)
       end
 
-      if authorize_transaction.amount == @amount   
-        raise_error(:wrong_amount)
-      end
+      raise_error(:wrong_amount) if @authorize_transaction.amount != @amount
     end
 
     def approve_authorize_transaction
       within_error_handler do
-        @charge_transaction.approve!
+        @authorize_transaction.approve!
       end
     end
 
     def create_charge_transaction
       @charge_transaction = ChargeTransaction.new(
         uuid: options[:uuid],
-        amount: amount,
+        amount: @amount,
         customer_phone: options[:customer_phone],
         customer_email: options[:customer_email]
       )
-      unless @charge_transaction.save
-        raise_error(@charge_transaction.errors.messages)
-      end
+      raise_error(@charge_transaction.errors.messages) unless @charge_transaction.save
     end
 
     def approve_change_transaction

@@ -1,7 +1,8 @@
 module PaymentCases
-  class Base < StandardError
-    def initialize(message)
-      @message = message
+  class UseCaseError < StandardError; end
+  class Base
+    def initialize(options)
+      @options = options
     end
 
     protected
@@ -15,13 +16,11 @@ module PaymentCases
     def error_response(error_message)
       { error: error_message }
     end
-    
+
     def within_error_handler
-      begin
-        yield
-      rescue e
-        raise_error(e.message)
-      end
+      yield
+    rescue UseCaseError => e
+      raise_error(e.message)
     end
 
     def raise_error(name)
