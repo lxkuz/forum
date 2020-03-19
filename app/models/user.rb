@@ -24,8 +24,6 @@ class User < ApplicationRecord
   end
 
   def check_total_transaction_sum_is_positive
-    if total_transaction_sum.negative?
-      errors.add(:total_transaction_sum, "can't be negative")
-    end
+    errors.add(:total_transaction_sum, "can't be negative") if total_transaction_sum.negative?
   end
 end

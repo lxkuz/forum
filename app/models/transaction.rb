@@ -2,7 +2,7 @@ class Transaction < ApplicationRecord
   belongs_to :merchant, class_name: :User, foreign_key: :uuid
 
   validates :customer_phone, presence: true
-  validate :check_positive_amount, :check_active_merchant 
+  validate :check_positive_amount, :check_active_merchant
 
   private
 
@@ -17,6 +17,6 @@ class Transaction < ApplicationRecord
   end
 
   def check_active_merchant
-    errors.add(:merchant, "inactive merchant") unless merchant.active?
+    errors.add(:merchant, 'inactive merchant') unless merchant.active?
   end
 end
