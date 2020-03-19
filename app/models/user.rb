@@ -1,8 +1,5 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   enum role: { admin: 0, merchant: 1 }
 
@@ -13,6 +10,10 @@ class User < ApplicationRecord
   scope :admins, -> { where role: :admin }
 
   has_many :transactions, foreign_key: :uuid, dependent: :restrict_with_error
+
+  def active?
+    activity
+  end
 
   protected
 

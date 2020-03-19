@@ -2,22 +2,21 @@ class Transaction < ApplicationRecord
   belongs_to :merchant, class_name: :User, foreign_key: :uuid
 
   validates :customer_phone, presence: true
+  validate :check_positive_amount, :check_active_merchant 
 
-  enum status: { initial: 0, approved: 1, reversed: 2, refunded: 3, error: 4 } do
-    event :approve do
-      transition initial: :approved
-    end
+  private
 
-    event :refund do
-      transition approved: :refunded
-    end
+  def check_positive_amount
+    return if amount.nil?
 
-    event :reverse do
-      transition initial: :reversed
+    if amount.negative?
+      errors.add(:amount, "can't be negative")
+    elsif amount.zero?
+      errors.add(:amount, "can't be zero")
     end
+  end
 
-    event :mark_as_error do
-      transition all => :error
-    end
+  def check_active_merchant
+    errors.add(:merchant, "inactive merchant") unless merchant.active?
   end
 end
