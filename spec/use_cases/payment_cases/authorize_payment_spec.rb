@@ -23,7 +23,7 @@ RSpec.describe PaymentCases::AuthorizePayment do
       { amount: 10.99, customer_phone: '1234',
         customer_email: 'test@ts.hv', uuid: merchant.id }
     end
-    let(:inactive_merchant_error) { { error: { merchant: ['inactive merchant'] } } }
+    let(:inactive_merchant_error) { { errors: { merchant: ['inactive merchant'] } } }
     it 'returns unsuccesful response' do
       is_expected.to eq(inactive_merchant_error)
     end
@@ -38,7 +38,7 @@ RSpec.describe PaymentCases::AuthorizePayment do
       { amount: -10.99, customer_phone: '1234',
         customer_email: 'test@ts.hv', uuid: merchant.id }
     end
-    let(:negative_amount_error) { { error: { amount: ["can't be negative"] } } }
+    let(:negative_amount_error) { { errors: { amount: ["can't be negative"] } } }
     it 'returns unsuccesful response' do
       is_expected.to eq(negative_amount_error)
     end
@@ -53,7 +53,7 @@ RSpec.describe PaymentCases::AuthorizePayment do
       { amount: 0, customer_phone: '1234',
         customer_email: 'test@ts.hv', uuid: merchant.id }
     end
-    let(:zero_amount_error) { { error: { amount: ["can't be zero"] } } }
+    let(:zero_amount_error) { { errors: { amount: ["can't be zero"] } } }
     it 'returns unsuccesful response' do
       is_expected.to eq(zero_amount_error)
     end
