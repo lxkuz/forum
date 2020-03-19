@@ -1,23 +1,21 @@
 h3.text-center= 'Merchants'
-.container
-  table.table.table-striped.table-bordered
-    thead
+table.table.table-striped.table-bordered
+  thead
+    tr
+      td= 'ID'
+      td= 'Name'
+      td= 'Email'
+      td= 'Activity'
+      td
+  tbody
+    - @merchants.each do |merchant_data|
+      - merchant = MerchantPresenter.new(merchant_data)
       tr
-        td= 'ID'
-        td= 'Name'
-        td= 'Email'
-        td= 'Activity'
+        td= merchant.id
+        td= merchant.name
+        td= merchant.email
+        td= merchant.activity
         td
-    tbody
-      - @merchants.each do |merchant_data|
-        - merchant = MerchantPresenter.new(merchant_data)
-        tr
-          td= merchant.id
-          td= merchant.name
-          td= merchant.email
-          td= merchant.activity
-          td
-            .btn
-              = link_to "Edit", url_for(action: :edit, controller: params[:controller], id: merchant.id), class: 'btn btn-sml btn-success'
-  .text-center
-    == paginate @merchants
+          = link_to "Edit", url_for(action: :edit, controller: params[:controller], id: merchant.id), class: 'btn btn-sml btn-success'
+.text-center
+  == paginate @merchants
