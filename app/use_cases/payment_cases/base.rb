@@ -14,7 +14,7 @@ module PaymentCases
     end
 
     def error_response(error_message)
-      { error: error_message }
+      { errors: error_message }
     end
 
     def within_error_handler
