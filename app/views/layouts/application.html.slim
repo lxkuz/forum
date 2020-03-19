@@ -8,5 +8,9 @@ html
     = stylesheet_pack_tag 'application', media: 'all'
     = javascript_pack_tag 'application'
   body
-    .container
-      = yield
+    .container.mt-3
+      - if current_user
+        header
+          .text-right
+            = link_to "Sign out", destroy_user_session_path, method: :delete, class: 'btn btn-sml btn-danger'
+      == yield
