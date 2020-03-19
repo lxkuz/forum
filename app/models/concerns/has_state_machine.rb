@@ -8,15 +8,15 @@ module HasStateMachine
       event :approve do
         transition initial: :approved
       end
-  
+
       event :refund do
         transition approved: :refunded
       end
-  
+
       event :reverse do
         transition initial: :reversed
       end
-  
+
       event :mark_as_error do
         transition all => :error
       end
