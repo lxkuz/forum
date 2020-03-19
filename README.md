@@ -27,6 +27,7 @@ It includes:
 ### Data seed
 
 Merchants loaded from seed rake task. Initial loads from S&P-500 companies CSV.
+It happens automatically during starting container. Seeds are applying only in case there are no merchants yet in database.
 
 ### Merchants UI
 
@@ -36,7 +37,7 @@ Includes:
 Locally: http://localhost:3000/users/sign_in
 On Heroku: https://forumlxkuz.herokuapp.com/users/sign_in
 
-Login credentials:
+Admin login credentials:
 *Email: `admin@forum.lxkuz`*
 *Password: `forumadmin`*
 
@@ -85,6 +86,8 @@ curl -X POST \
   -F type=authorize \
   -F uuid=<MERCHANT_ID>
 ```
+Possible types: `authorize`, `charge`, `refund`, `reversal`
+
 Successful response:
 ```json
 {
@@ -107,7 +110,7 @@ Sidekiq has it's own UI to check jobs statuses:
 Locally: http://localhost:3000/sidekiq
 On Heroku: https://forumlxkuz.herokuapp.com/sidekiq
 
-### Use cases, presenters, query object, services etc
+### Use cases, presenters, query object, services etc.
 
 * STI used for Transactions classes
 * Custom validation used for both User and Transaction models
