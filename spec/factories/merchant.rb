@@ -5,7 +5,12 @@ FactoryBot.define do
     role { :merchant }
     activity { true }
   end
+
   trait :inactive_merchant do
     activity { false }
+  end
+
+  factory :with_money do
+    total_transaction_sum { 10.99 }
   end
 end
