@@ -1,6 +1,7 @@
 .row
   .col-md-4
     h3 = "Edit merchant"
+    h4 = "Balance: #{number_to_currency(@merchant.total_transaction_sum)}"
     = form_with(model: @merchant, url: merchant_url(@merchant)) do |f|
       .form-inputs
         .label
