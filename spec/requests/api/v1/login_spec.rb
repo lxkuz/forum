@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-describe "getting JWT token", :type => :request do
-  
+describe 'getting JWT token', type: :request do
   before do
     post '/api/v1/login', params: params
   end
@@ -19,7 +18,7 @@ describe "getting JWT token", :type => :request do
         }
       }
     end
-  
+
     it 'returns token' do
       expect(JSON.parse(response.body)).to have_key('token')
     end

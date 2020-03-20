@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Post payment", :type => :request do
+describe 'Post payment', type: :request do
   let(:pwd) { '123123qweqwe' }
 
   let!(:merchant) { create :merchant }
@@ -26,7 +26,7 @@ describe "Post payment", :type => :request do
       post '/api/v1/login', params: login_params
 
       token = JSON.parse(response.body)['token']
-      
+
       headers = { 'authorization' => "Bearer #{token}" }
       post '/api/v1/payments', params: params, headers: headers
     end
@@ -50,7 +50,7 @@ describe "Post payment", :type => :request do
 
   context 'with invalid token' do
     before do
-      headers = { 'authorization' => "Bearer invalidtoken" }
+      headers = { 'authorization' => 'Bearer invalidtoken' }
       post '/api/v1/payments', params: params, headers: headers
     end
 
