@@ -26,5 +26,57 @@ RSpec.describe PaymentCases::Pay do
         .from('initial')
         .to('approved')
     end
+
+    it 'increases merchant total_transaction_sum' do
+      expect { call }.to change { authorize_transaction.merchant.reload.total_transaction_sum }
+        .from(0)
+        .to(authorize_transaction.amount)
+    end
+  end
+
+  context 'errors handling' do
+    context 'with negative amount' do
+      xit 'returns errors' do
+      end
+  
+      xit "doesn't create charge transaction" do
+      end
+
+      xit "doesn't change merchant total_transaction_sum" do
+      end
+    end
+
+    context 'without authorize transaction' do
+      xit 'returns errors' do
+      end
+  
+      xit "doesn't create charge transaction" do
+      end
+
+      xit "doesn't change merchant total_transaction_sum" do
+      end
+    end
+
+    context 'authorize transaction has wrong status' do
+      xit 'returns errors' do
+      end
+  
+      xit "doesn't create charge transaction" do
+      end
+
+      xit "doesn't change merchant total_transaction_sum" do
+      end
+    end
+
+    context 'authorize transaction has different amount' do
+      xit 'returns errors' do
+      end
+  
+      xit "doesn't create charge transaction" do
+      end
+
+      xit "doesn't change merchant total_transaction_sum" do
+      end
+    end
   end
 end
