@@ -127,3 +127,12 @@ Rubocop linter added to the project. To run it try:
 docker-compose exec app rubocop .
 ```
 
+### Tests
+
+Rspec tests with FactoryBot, Database Cleaner and simplecov. Covered next layers of application:
+
+* Controller test for merchants controller
+* Unit tests for payment use cases
+* Request tests for API endpoints
+
+
