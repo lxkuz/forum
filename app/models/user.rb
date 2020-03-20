@@ -11,10 +11,6 @@ class User < ApplicationRecord
 
   has_many :transactions, foreign_key: :uuid, dependent: :restrict_with_error
 
-  def active?
-    activity
-  end
-
   protected
 
   def password_required?

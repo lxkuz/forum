@@ -3,14 +3,14 @@ FactoryBot.define do
     email { Faker::Internet.email }
     name { Faker::Name.first_name }
     role { :merchant }
-    activity { true }
+    active { true }
   end
 
   trait :inactive_merchant do
-    activity { false }
+    active { false }
   end
 
-  factory :with_money do
+  trait :with_money do
     total_transaction_sum { 10.99 }
   end
 end

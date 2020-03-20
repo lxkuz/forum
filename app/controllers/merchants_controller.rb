@@ -27,6 +27,6 @@ class MerchantsController < ApplicationController
   end
 
   def resource_params
-    params.require(:user).permit(:email, :name, :id, :activity)
+    params.require(:user).permit(:email, :name, :id, :active)
   end
 end

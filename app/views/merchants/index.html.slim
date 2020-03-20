@@ -2,10 +2,10 @@ h3.text-center= 'Merchants'
 table.table.table-striped.table-bordered
   thead
     tr
-      td= 'ID'
-      td= 'Name'
-      td= 'Email'
-      td= 'Activity'
+      td ID
+      td Name
+      td Email
+      td Active
       td
   tbody
     - @merchants.each do |merchant_data|
@@ -14,7 +14,7 @@ table.table.table-striped.table-bordered
         td= merchant.id
         td= merchant.name
         td= merchant.email
-        td= merchant.activity
+        td= merchant.active
         td
           = link_to "Edit", url_for(action: :edit, controller: params[:controller], id: merchant.id), class: 'btn btn-sml btn-success'
 .text-center

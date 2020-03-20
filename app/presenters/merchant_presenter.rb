@@ -5,8 +5,8 @@ class MerchantPresenter
 
   delegate :id, :email, :name, to: :merchant
 
-  def activity
-    if merchant.activity
+  def active
+    if merchant.active
       'Active'
     else
       'Inactive'
