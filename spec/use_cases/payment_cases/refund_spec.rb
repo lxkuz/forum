@@ -69,7 +69,7 @@ RSpec.describe PaymentCases::Refund do
           uuid: charge_transaction.uuid }
       end
 
-      let(:unsuccessful_response) { {:errors=>"Charge transaction not found"} }
+      let(:unsuccessful_response) { { errors: 'Charge transaction not found' } }
 
       it 'returns errors' do
         is_expected.to eq(unsuccessful_response)
