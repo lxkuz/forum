@@ -9,8 +9,10 @@ html
     = javascript_pack_tag 'application'
   body
     .container.mt-3
-      - if current_user
-        header
+      header
+        .text-left
+          = link_to "Info", "https://github.com/lxkuz/forum"
+        - if current_user
           .text-right
             = link_to "Sign out", destroy_user_session_path, method: :delete, class: 'btn btn-sml btn-danger'
       == yield
