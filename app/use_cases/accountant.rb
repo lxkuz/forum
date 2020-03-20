@@ -15,7 +15,7 @@ class Accountant
     when :refund
       PaymentCases::Refund.new(options).call
     when :reversal
-      PaymentCases::Cancel.new(options).call
+      PaymentCases::RefusePayment.new(options).call
     else
       { errors: 'unknown transaction type' }
     end
