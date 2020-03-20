@@ -20,12 +20,16 @@ RSpec.describe PaymentCases::AuthorizePayment do
   end
 
   context 'for inactive merchant' do
+    let(:inactive_merchant) { create :merchant, active: false }
+
     let(:options) do
       { amount: 10.99, customer_phone: '1234',
-        customer_email: 'test@ts.hv', uuid: merchant.id }
+        customer_email: 'test@ts.hv', uuid: inactive_merchant.id }
     end
 
-    let(:inactive_merchant_error) { { errors: { merchant: ['inactive merchant'] } } }
+    let(:inactive_merchant_error) do
+      { errors: { merchant: ['inactive merchant'] } }
+    end
 
     it 'returns unsuccesful response' do
       is_expected.to eq(inactive_merchant_error)
