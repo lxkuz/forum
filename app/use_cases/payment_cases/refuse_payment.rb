@@ -33,7 +33,7 @@ module PaymentCases
     end
 
     def create_reversal_transaction
-      @reversal_transaction = RefundTransaction.new(
+      @reversal_transaction = ReversalTransaction.new(
         uuid: options[:uuid],
         customer_phone: options[:customer_phone],
         customer_email: options[:customer_email]
