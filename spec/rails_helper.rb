@@ -7,6 +7,10 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 require 'devise'
 require 'factory_bot_rails'
+
+require 'database_cleaner/active_record'
+DatabaseCleaner.strategy = :truncation
+
 require 'simplecov'
 SimpleCov.start 'rails'
 
@@ -72,5 +76,21 @@ RSpec.configure do |config|
 
   config.before(:each, type: :request) do
     host! 'localhost'
+  end
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
   end
 end
