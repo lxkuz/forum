@@ -24,7 +24,7 @@ module PaymentCases
     attr_reader :options
 
     def handle_options
-      @amount = options[:amount]
+      @amount = options[:amount].to_f
       raise_error(:wrong_amount) if @amount <= 0
     end
 
