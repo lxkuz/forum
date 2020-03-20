@@ -3,7 +3,7 @@ module PaymentCases
     def call
       handle_options
       load_charge_transaction
-      Merchant.transaction do
+      User.transaction do
         AuthorizeTransaction.transaction do
           RefundTransaction.transaction do
             refund_charge_transaction
@@ -35,12 +35,12 @@ module PaymentCases
       ).reorder(:created_at).last
 
       if @charge_transaction.nil? ||
-         @charge_transaction.is_a?(ChargeTransaction) ||
+         !@charge_transaction.is_a?(ChargeTransaction) ||
          !@charge_transaction.approved?
         raise_error(:no_charge_transaction)
       end
 
-      raise_error(:wrong_amount) if @charge_transaction.amount == @amount
+      raise_error(:wrong_amount) if @charge_transaction.amount != @amount
     end
 
     def refund_charge_transaction
@@ -52,7 +52,7 @@ module PaymentCases
     def create_refund_transaction
       @refund_transaction = RefundTransaction.new(
         uuid: options[:uuid],
-        amount: amount,
+        amount: @amount,
         customer_phone: options[:customer_phone],
         customer_email: options[:customer_email]
       )
